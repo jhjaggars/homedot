@@ -27,4 +27,13 @@ return require('packer').startup(function()
 
     use 'lukas-reineke/lsp-format.nvim'
 
+    use {
+        'ThePrimeagen/harpoon',
+        requires = {
+            'nvim-lua/plenary.nvim',
+        }
+    }
+
+    use 'sbdchd/neoformat'
+
 end)
