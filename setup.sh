@@ -3,13 +3,10 @@
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
 # NEOVIM
-if [ ! -f $HOME/.config/nvim/init.vim ]; then
+if [ ! -f $HOME/.config/nvim/init.lua ]; then
     mkdir -p $HOME/.config/nvim
-    cp $DIR/init.vim $HOME/.config/nvim/
+    cp -r $DIR/nvim $HOME/.config/
 fi
-
-ln -s $DIR/.vim $HOME/.vim
-ln -s $DIR/.vimrc $HOME/.vimrc
 
 # TMUX
 TMUX_DIR=$DIR/.tmux
