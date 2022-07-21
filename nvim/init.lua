@@ -9,7 +9,7 @@ vim.opt.shiftwidth = 4
 vim.opt.expandtab = true
 vim.opt.smartindent = true
 vim.opt.completeopt = { 'menu', 'menuone', 'noselect' }
-vim.g.termguicolors = true
+vim.o.termguicolors = true
 
 vim.g.mapleader = " "
 
