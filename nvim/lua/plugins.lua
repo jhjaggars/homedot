@@ -52,4 +52,11 @@ return require('packer').startup(function()
 
     use {'terrortylor/nvim-comment'}
     use {'kylechui/nvim-surround'}
+
+    use {
+        'TimUntersberger/neogit',
+        requires = {
+            'nvim-lua/plenary.nvim'
+        }
+    }
 end)

@@ -10,6 +10,7 @@ vim.opt.expandtab = true
 vim.opt.smartindent = true
 vim.opt.completeopt = { 'menu', 'menuone', 'noselect' }
 vim.o.termguicolors = true
+vim.o.background = 'dark'
 
 vim.g.mapleader = " "
 
@@ -39,6 +40,7 @@ require('nvim-lsp-setup').setup({
         tsserver = {},
         gopls = {},
         pylsp = {},
+        rust_analyzer = {},
         sumneko_lua = {
             single_file_support = true,
             settings = {
@@ -157,6 +159,8 @@ require('nvim_comment').setup {
 }
 require('nvim-surround').setup()
 require('hardline').setup {}
+
+require('neogit').setup {}
 
 local group = vim.api.nvim_create_augroup('fmt', { clear = true })
 vim.api.nvim_create_autocmd('BufWritePre', { command = 'undojoin | Neoformat', group = group })
