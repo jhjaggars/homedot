@@ -1,16 +1,8 @@
 require('plugins')
+require('jhjaggars')
 
-vim.opt.nu = true
-vim.opt.relativenumber = true
-
-vim.opt.tabstop = 4
-vim.opt.softtabstop = 4
-vim.opt.shiftwidth = 4
-vim.opt.expandtab = true
-vim.opt.smartindent = true
 vim.opt.completeopt = { 'menu', 'menuone', 'noselect' }
 vim.o.termguicolors = true
-vim.o.background = 'dark'
 
 vim.g.mapleader = " "
 
@@ -114,6 +106,12 @@ local opts = { noremap=true, silent=true }
 vim.keymap.set('n', '<leader>hp', require('harpoon.mark').add_file, opts)
 vim.keymap.set('n', '<leader>fp', require('harpoon.ui').toggle_quick_menu, opts)
 
+require('telescope').setup {
+    defaults = {
+        layout_strategy = 'center',
+    },
+}
+
 require('telescope').load_extension('harpoon')
 
 vim.keymap.set('n', '<leader>ff', require('telescope.builtin').find_files, opts)
@@ -164,5 +162,3 @@ require('neogit').setup {}
 
 local group = vim.api.nvim_create_augroup('fmt', { clear = true })
 vim.api.nvim_create_autocmd('BufWritePre', { command = 'undojoin | Neoformat', group = group })
-
-vim.cmd[[colorscheme falcon]]
