@@ -7,10 +7,11 @@ vim.o.termguicolors = true
 vim.g.mapleader = " "
 
 require('nvim-treesitter.configs').setup {
-    ensure_installed = { 'lua', 'python', 'go', 'typescript' },
+    ensure_installed = { 'lua', 'python', 'go', 'typescript', 'org' },
     auto_install = true,
     highlight = {
         enable = true,
+        additional_vim_regex_highlighting = {'org'},
     },
 }
 
@@ -81,6 +82,7 @@ cmp.setup {
         { name = 'path' },
         { name = 'luasnip' },
         { name = 'buffer' },
+        { name = 'orgmode' },
     },
     experimental = {
         native_menu = false,
@@ -106,11 +108,6 @@ local opts = { noremap=true, silent=true }
 vim.keymap.set('n', '<leader>hp', require('harpoon.mark').add_file, opts)
 vim.keymap.set('n', '<leader>fp', require('harpoon.ui').toggle_quick_menu, opts)
 
-require('telescope').setup {
-    defaults = {
-        layout_strategy = 'center',
-    },
-}
 
 require('telescope').load_extension('harpoon')
 
@@ -156,9 +153,17 @@ require('nvim_comment').setup {
     comment_empty = false,
 }
 require('nvim-surround').setup()
-require('hardline').setup {}
+require('lualine').setup()
 
 require('neogit').setup {}
 
 local group = vim.api.nvim_create_augroup('fmt', { clear = true })
 vim.api.nvim_create_autocmd('BufWritePre', { command = 'undojoin | Neoformat', group = group })
+
+-- Org Mode!
+
+require('orgmode').setup_ts_grammar()
+require('orgmode').setup {
+    org_agenda_files = {'~/org/*'},
+    org_default_notes_file = '~/notes.org',
+}

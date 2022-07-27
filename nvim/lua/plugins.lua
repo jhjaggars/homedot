@@ -38,11 +38,12 @@ return require('packer').startup(function()
         }
     }
 
-    use 'ojroques/nvim-hardline'
-	use {'dracula/vim', as = 'dracula'}
-	use {'fenetikm/falcon'}
-    use { "ellisonleao/gruvbox.nvim" }
-    use { "savq/melange" }
+    use {
+        'nvim-lualine/lualine.nvim',
+        requires = {
+            'kyazdani42/nvim-web-devicons', opt = true
+        },
+    }
 
     use {'mfussenegger/nvim-dap'}
     use {'rcarriga/nvim-dap-ui'}
@@ -59,4 +60,18 @@ return require('packer').startup(function()
             'nvim-lua/plenary.nvim'
         }
     }
+
+    use { 'nvim-orgmode/orgmode',
+        config = function()
+            require('orgmode').setup {}
+        end
+    }
+
+	use {'dracula/vim', as = 'dracula'}
+	use {'fenetikm/falcon'}
+    use { "ellisonleao/gruvbox.nvim" }
+    use { "savq/melange" }
+    use { "folke/tokyonight.nvim" }
+    use { "EdenEast/nightfox.nvim" }
+    use { "luisiacc/gruvbox-baby" }
 end)

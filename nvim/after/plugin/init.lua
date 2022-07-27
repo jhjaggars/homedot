@@ -1,3 +1,7 @@
 vim.o.background = 'dark'
 
-vim.cmd[[colorscheme dracula]]
+require('gruvbox').setup {
+    contrast = "hard",
+}
+
+vim.cmd[[colorscheme gruvbox]]
