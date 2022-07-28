@@ -7,7 +7,8 @@ return require('packer').startup(function()
         'junnplus/nvim-lsp-setup',
         requires = {
             'neovim/nvim-lspconfig',
-            'williamboman/nvim-lsp-installer',
+            'williamboman/mason.nvim',
+            'williamboman/mason-lspconfig.nvim',
         }
     }
     use 'lukas-reineke/lsp-format.nvim'
