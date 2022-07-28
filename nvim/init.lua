@@ -34,6 +34,7 @@ require('nvim-lsp-setup').setup({
         gopls = {},
         pylsp = {},
         rust_analyzer = {},
+        clangd = {},
         sumneko_lua = {
             single_file_support = true,
             settings = {
