@@ -48,6 +48,10 @@ require('nvim-lsp-setup').setup({
     }
 })
 
+require('gitsigns').setup {
+    current_line_blame = true,
+}
+
 local lspkind = require('lspkind')
 lspkind.init()
 

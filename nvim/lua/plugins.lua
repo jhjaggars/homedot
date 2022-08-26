@@ -62,6 +62,8 @@ return require('packer').startup(function()
         }
     }
 
+    use { 'lewis6991/gitsigns.nvim' }
+
     use { 'nvim-orgmode/orgmode',
         config = function()
             require('orgmode').setup {}
