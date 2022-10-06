@@ -23,7 +23,7 @@ luasnip.config.set_config {
 }
 
 -- LSP
-require('nvim-lsp-setup').setup({
+require('lsp-setup').setup({
     default_mappings = true,
     on_attach = function(client, bufnr)
         client.server_capabilities.documentFormattingProvider = false
