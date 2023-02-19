@@ -35,7 +35,7 @@ require('lsp-setup').setup({
         pylsp = {},
         rust_analyzer = {},
         clangd = {},
-        sumneko_lua = {
+        lua_ls = {
             single_file_support = true,
             settings = {
                 Lua = {
