@@ -157,7 +157,6 @@ require('dap-python').setup('~/.virtualenvs/debugpy/bin/python')
 require('nvim_comment').setup {
     comment_empty = false,
 }
-require('nvim-surround').setup()
 require('lualine').setup()
 
 require('neogit').setup {}

@@ -53,7 +53,12 @@ return require('packer').startup(function()
     use {'nvim-telescope/telescope-dap.nvim'}
 
     use {'terrortylor/nvim-comment'}
-    use {'kylechui/nvim-surround'}
+    use ({
+        'kylechui/nvim-surround',
+        config = function()
+            require("nvim-surround").setup({})
+        end
+    })
 
     use {
         'TimUntersberger/neogit',
