@@ -14,3 +14,6 @@ vim.opt.smartindent = true
 vim.opt.wrap = false
 
 vim.opt.laststatus = 3
+
+vim.o.clipboard = "unnamedplus"
+vim.o.mouse = "a"
