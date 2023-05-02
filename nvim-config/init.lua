@@ -9,6 +9,7 @@ if not vim.loop.fs_stat(lazypath) then
     '--filter=blob:none',
     'https://github.com/folke/lazy.nvim.git',
     '--branch=stable',
+    lazypath
   }
 end
 vim.opt.rtp:prepend(lazypath)
@@ -52,13 +53,10 @@ require('lazy').setup({
   },
 
   {
-    'ellisonleao/gruvbox.nvim',
+    'Mofiqul/dracula.nvim',
     priority = 1000,
     config = function()
-      require('gruvbox').setup({
-        contrast = 'hard'
-      })
-      vim.cmd.colorscheme 'gruvbox'
+      vim.cmd.colorscheme 'dracula'
     end,
   },
 
@@ -85,6 +83,15 @@ require('lazy').setup({
     dependencies = {
       'nvim-lua/plenary.nvim',
     },
+  },
+  {
+    'renerocksai/telekasten.nvim',
+    dependencies = { 'nvim-telescope/telescope.nvim' },
+    config = function()
+      require('telekasten').setup({
+        home = vim.fn.expand("~/Documents/ObsidianVault"),
+      })
+    end,
   },
 }, {})
 
@@ -142,6 +149,24 @@ vim.keymap.set('n', '<leader>cc', function()
   coverage.load(true)
   coverage.summary()
 end, { desc = '[C]ode [C]overage' })
+
+-- Launch panel if nothing is typed after <leader>z
+vim.keymap.set("n", "<leader>z", "<cmd>Telekasten panel<CR>")
+
+-- Most used functions
+vim.keymap.set("n", "<leader>zf", "<cmd>Telekasten find_notes<CR>")
+vim.keymap.set("n", "<leader>zg", "<cmd>Telekasten search_notes<CR>")
+vim.keymap.set("n", "<leader>zd", "<cmd>Telekasten goto_today<CR>")
+vim.keymap.set("n", "<leader>zz", "<cmd>Telekasten follow_link<CR>")
+vim.keymap.set("n", "<leader>zn", "<cmd>Telekasten new_note<CR>")
+vim.keymap.set("n", "<leader>zc", "<cmd>Telekasten show_calendar<CR>")
+vim.keymap.set("n", "<leader>zb", "<cmd>Telekasten show_backlinks<CR>")
+vim.keymap.set("n", "<leader>zI", "<cmd>Telekasten insert_img_link<CR>")
+vim.keymap.set("n", "<leader>zl", "<cmd>Telekasten insert_link<CR>")
+
+-- Call insert link automatically when we start typing a link
+-- vim.keymap.set("i", "[[", "<cmd>Telekasten insert_link<CR>")
+
 
 -- [[ Configure Treesitter ]]
 -- See `:help nvim-treesitter`
@@ -245,6 +270,7 @@ local on_attach = function(_, bufnr)
   -- See `:help K` for why this keymap
   nmap('K', vim.lsp.buf.hover, 'Hover Documentation')
   nmap('<C-k>', vim.lsp.buf.signature_help, 'Signature Documentation')
+  nmap('<leader>dd', vim.diagnostic.open_float, 'Diagnostic Float')
 
   -- Lesser used LSP functionality
   nmap('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
@@ -270,11 +296,10 @@ vim.cmd [[autocmd BufWritePre * lua vim.lsp.buf.format()]]
 --  the `settings` field of the server config. You must look up that documentation yourself.
 local servers = {
   -- clangd = {},
-  -- gopls = {},
+  gopls = {},
   -- pyright = {},
-  -- rust_analyzer = {},
-  -- tsserver = {},
-
+  rust_analyzer = {},
+  tsserver = {},
   lua_ls = {
     Lua = {
       workspace = { checkThirdParty = false },
