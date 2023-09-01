@@ -85,13 +85,57 @@ require('lazy').setup({
     },
   },
   {
-    'renerocksai/telekasten.nvim',
-    dependencies = { 'nvim-telescope/telescope.nvim' },
-    config = function()
-      require('telekasten').setup({
-        home = vim.fn.expand("~/Documents/ObsidianVault"),
-      })
+    'epwalsh/obsidian.nvim',
+    lazy = true,
+    event = { "BufReadPre /home/jhjaggars/Documents/ObsidianVault/**.md" },
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "hrsh7th/nvim-cmp",
+      "nvim-telescope/telescope.nvim",
+    },
+    opts = {
+      dir = "~/Documents/ObsidianVault/",
+    },
+    config = function(_, opts)
+      require("obsidian").setup(opts)
+      vim.keymap.set("n", "gf", function()
+        if require("obsidian").util.cursor_on_markdown_link() then
+          return "<cmd>ObsidianFollowLink<CR>"
+        else
+          return "gf"
+        end
+      end, { noremap = false, expr = true })
     end,
+  },
+  {
+    'kylechui/nvim-surround',
+    version = '*',
+    event = 'VeryLazy',
+    config = function()
+      require("nvim-surround").setup()
+    end,
+  },
+  {
+    'Wansmer/treesj',
+    dependencies = { 'nvim-treesitter/nvim-treesitter' },
+    config = function()
+      require('treesj').setup()
+    end
+  },
+  {
+    'jhjaggars/telescope-media-files.nvim',
+    dependencies = {
+      'nvim-lua/popup.nvim',
+      'nvim-lua/plenary.nvim',
+      'nvim-telescope/telescope.nvim',
+    },
+    config = function()
+      require('telescope').load_extension('media_files')
+    end
+  },
+  {
+    'Exafunction/codeium.vim',
+    event = 'BufEnter'
   },
 }, {})
 
@@ -172,17 +216,18 @@ vim.keymap.set("n", "<leader>zl", "<cmd>Telekasten insert_link<CR>")
 -- See `:help nvim-treesitter`
 require('nvim-treesitter.configs').setup {
   -- Add languages to be installed here that you want installed for treesitter
-  ensure_installed = { 'c', 'cpp', 'go', 'lua', 'python', 'rust', 'tsx', 'typescript', 'help', 'vim' },
+  ensure_installed = { 'c', 'cpp', 'go', 'lua', 'python', 'rust', 'tsx', 'typescript', 'help', 'vim', 'markdown',
+    'markdown_inline', },
 
   -- Autoinstall languages that are not installed. Defaults to false (but you can change for yourself!)
   auto_install = false,
 
-  highlight = { enable = true },
+  highlight = { enable = true, additional_vim_regex_highlighting = { "markdown" }, },
   indent = { enable = true, disable = { 'python' } },
   incremental_selection = {
     enable = true,
     keymaps = {
-      init_selection = '<c-space>',
+      init_selection = 'wc-spacew',
       node_incremental = '<c-space>',
       scope_incremental = '<c-s>',
       node_decremental = '<M-space>',

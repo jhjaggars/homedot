@@ -1,7 +1,7 @@
 vim.cmd([[packadd packer.nvim]])
 
-return require("packer").startup(function()
-	use("wbthomason/packer.nvim")
+return require('packer').startup(function()
+	use 'wbthomason/packer.nvim'
 
 	use({
 		"junnplus/lsp-setup.nvim",
@@ -23,14 +23,14 @@ return require("packer").startup(function()
 	use("saadparwaiz1/cmp_luasnip")
 	use("L3MON4D3/LuaSnip")
 
-	use({ "nvim-treesitter/nvim-treesitter" }, { run = ":TSUpdate" })
-	use("nvim-lua/lsp-status.nvim")
-	use("sbdchd/neoformat")
+	use({ 'nvim-treesitter/nvim-treesitter' }, { run = ':TSUpdate' })
+	use 'nvim-lua/lsp-status.nvim'
+	use 'sbdchd/neoformat'
 
-	use({
-		"nvim-telescope/telescope.nvim",
-		requires = { { "nvim-lua/plenary.nvim" } },
-	})
+	use {
+		'nvim-telescope/telescope.nvim',
+		requires = { { 'nvim-lua/plenary.nvim' } }
+	}
 
 	use({
 		"epwalsh/obsidian.nvim",
@@ -44,19 +44,19 @@ return require("packer").startup(function()
 		},
 	})
 
-	use({
-		"nvim-lualine/lualine.nvim",
-		requires = {
-			"kyazdani42/nvim-web-devicons",
-			opt = true,
-		},
-	})
+	use { 'mfussenegger/nvim-dap' }
+	use { 'rcarriga/nvim-dap-ui' }
+	use { 'mfussenegger/nvim-dap-python' }
+	use { 'theHamsta/nvim-dap-virtual-text' }
+	use { 'nvim-telescope/telescope-dap.nvim' }
 
-	use({ "mfussenegger/nvim-dap" })
-	use({ "rcarriga/nvim-dap-ui" })
-	use({ "mfussenegger/nvim-dap-python" })
-	use({ "theHamsta/nvim-dap-virtual-text" })
-	use({ "nvim-telescope/telescope-dap.nvim" })
+	use { 'terrortylor/nvim-comment' }
+	use({
+		'kylechui/nvim-surround',
+		config = function()
+			require("nvim-surround").setup({})
+		end
+	})
 
 	use({ "terrortylor/nvim-comment" })
 	use({
@@ -76,12 +76,17 @@ return require("packer").startup(function()
 
 	use({ "lewis6991/gitsigns.nvim" })
 
-	use({ "dracula/vim", as = "dracula" })
-	use({ "fenetikm/falcon" })
-	use({ "ellisonleao/gruvbox.nvim" })
-	use({ "savq/melange" })
-	use({ "folke/tokyonight.nvim" })
-	use({ "EdenEast/nightfox.nvim" })
-	use({ "luisiacc/gruvbox-baby" })
-	use({ "folke/which-key.nvim" })
+	use { 'dracula/vim', as = 'dracula' }
+	use { 'fenetikm/falcon' }
+	use { "ellisonleao/gruvbox.nvim" }
+	use { "savq/melange" }
+	use { "folke/tokyonight.nvim" }
+	use { "EdenEast/nightfox.nvim" }
+	use {
+		'rmagatti/goto-preview',
+		config = function()
+			require('goto-preview').setup {}
+		end
+	}
+	use { "luisiacc/gruvbox-baby" }
 end)

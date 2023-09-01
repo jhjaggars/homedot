@@ -5,13 +5,50 @@ vim.opt.completeopt = { "menu", "menuone", "noselect" }
 vim.o.termguicolors = true
 
 vim.g.mapleader = " "
+vim.g.maplocalleader = " "
+vim.o.clipboard = 'unnamedplus'
+vim.o.incsearch = true
 
-require("nvim-treesitter.configs").setup({
-	ensure_installed = { "lua", "python", "go", "typescript" },
+require('nvim-treesitter.configs').setup {
+	ensure_installed = { 'lua', 'python', 'go', 'typescript', 'org' },
 	auto_install = true,
 	highlight = {
 		enable = true,
+		additional_vim_regex_highlighting = { 'org' },
 	},
+}
+
+local luasnip = require('luasnip')
+luasnip.config.set_config {
+	history = true,
+	updateevents = 'TextChanged,TextChangedI',
+	enable_autosnippets = true,
+}
+
+-- LSP
+require('lsp-setup').setup({
+	default_mappings = true,
+	-- on_attach = function(client, bufnr)
+	--     client.server_capabilities.documentFormattingProvider = false
+	--     client.server_capabilities.documentRangeFormattingProvider = false
+	-- end,
+	servers = {
+		tsserver = {},
+		gopls = {},
+		pylsp = {},
+		rust_analyzer = {},
+		clangd = {},
+		lua_ls = {
+			single_file_support = true,
+			settings = {
+				Lua = {
+					diagnostics = {
+						globals = { 'vim', 'use' }
+					}
+				}
+			},
+		},
+	}
 })
 
 local luasnip = require("luasnip")
@@ -179,7 +216,7 @@ require("lualine").setup({
 
 require("neogit").setup({})
 
-local group = vim.api.nvim_create_augroup("fmt", { clear = true })
-vim.api.nvim_create_autocmd("BufWritePre", { command = "undojoin | Neoformat", group = group })
+-- local group = vim.api.nvim_create_augroup('fmt', { clear = true })
+-- vim.api.nvim_create_autocmd('BufWritePre', { command = 'undojoin | Neoformat', group = group })
 
 require("which-key").setup({})
