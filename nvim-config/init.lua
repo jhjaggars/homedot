@@ -25,7 +25,7 @@ require('lazy').setup({
     dependencies = {
       'williamboman/mason.nvim',
       'williamboman/mason-lspconfig.nvim',
-      { 'j-hui/fidget.nvim', opts = {} },
+      { 'j-hui/fidget.nvim', opts = {}, tag = "legacy" },
       'folke/neodev.nvim',
     },
   },
@@ -216,7 +216,7 @@ vim.keymap.set("n", "<leader>zl", "<cmd>Telekasten insert_link<CR>")
 -- See `:help nvim-treesitter`
 require('nvim-treesitter.configs').setup {
   -- Add languages to be installed here that you want installed for treesitter
-  ensure_installed = { 'c', 'cpp', 'go', 'lua', 'python', 'rust', 'tsx', 'typescript', 'help', 'vim', 'markdown',
+  ensure_installed = { 'bash', 'c', 'cpp', 'go', 'lua', 'python', 'rust', 'tsx', 'typescript', 'help', 'vim', 'markdown',
     'markdown_inline', },
 
   -- Autoinstall languages that are not installed. Defaults to false (but you can change for yourself!)
@@ -341,6 +341,7 @@ vim.cmd [[autocmd BufWritePre * lua vim.lsp.buf.format()]]
 --  the `settings` field of the server config. You must look up that documentation yourself.
 local servers = {
   -- clangd = {},
+  bashls = {},
   gopls = {},
   -- pyright = {},
   rust_analyzer = {},
