@@ -55,8 +55,17 @@ require('lazy').setup({
   {
     'Mofiqul/dracula.nvim',
     priority = 1000,
+    -- config = function()
+    --   vim.cmd.colorscheme 'dracula'
+    -- end,
+  },
+
+  {
+    'catppuccin/nvim',
+    name = 'catppuccin',
+    priority = 1000,
     config = function()
-      vim.cmd.colorscheme 'dracula'
+      vim.cmd.colorscheme 'catppuccin-mocha'
     end,
   },
 
@@ -134,6 +143,21 @@ require('lazy').setup({
     end
   },
   {
+    'vrischmann/tree-sitter-templ',
+    config = function()
+      local treesitter_parser_config = require "nvim-treesitter.parsers".get_parser_configs()
+      treesitter_parser_config.templ = {
+        install_info = {
+          url = "https://github.com/vrischmann/tree-sitter-templ.git",
+          files = { "src/parser.c", "src/scanner.c" },
+          branch = "master",
+        },
+      }
+
+      vim.treesitter.language.register('templ', 'templ')
+    end
+  },
+  {
     'Exafunction/codeium.vim',
     event = 'BufEnter'
   },
@@ -194,30 +218,12 @@ vim.keymap.set('n', '<leader>cc', function()
   coverage.summary()
 end, { desc = '[C]ode [C]overage' })
 
--- Launch panel if nothing is typed after <leader>z
-vim.keymap.set("n", "<leader>z", "<cmd>Telekasten panel<CR>")
-
--- Most used functions
-vim.keymap.set("n", "<leader>zf", "<cmd>Telekasten find_notes<CR>")
-vim.keymap.set("n", "<leader>zg", "<cmd>Telekasten search_notes<CR>")
-vim.keymap.set("n", "<leader>zd", "<cmd>Telekasten goto_today<CR>")
-vim.keymap.set("n", "<leader>zz", "<cmd>Telekasten follow_link<CR>")
-vim.keymap.set("n", "<leader>zn", "<cmd>Telekasten new_note<CR>")
-vim.keymap.set("n", "<leader>zc", "<cmd>Telekasten show_calendar<CR>")
-vim.keymap.set("n", "<leader>zb", "<cmd>Telekasten show_backlinks<CR>")
-vim.keymap.set("n", "<leader>zI", "<cmd>Telekasten insert_img_link<CR>")
-vim.keymap.set("n", "<leader>zl", "<cmd>Telekasten insert_link<CR>")
-
--- Call insert link automatically when we start typing a link
--- vim.keymap.set("i", "[[", "<cmd>Telekasten insert_link<CR>")
-
-
 -- [[ Configure Treesitter ]]
 -- See `:help nvim-treesitter`
 require('nvim-treesitter.configs').setup {
   -- Add languages to be installed here that you want installed for treesitter
   ensure_installed = { 'bash', 'c', 'cpp', 'go', 'lua', 'python', 'rust', 'tsx', 'typescript', 'help', 'vim', 'markdown',
-    'markdown_inline', },
+    'markdown_inline', 'yaml', },
 
   -- Autoinstall languages that are not installed. Defaults to false (but you can change for yourself!)
   auto_install = false,
@@ -352,6 +358,7 @@ local servers = {
       telemetry = { enable = false },
     },
   },
+  templ = {},
 }
 
 -- Setup neovim lua configuration
