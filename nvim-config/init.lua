@@ -19,6 +19,7 @@ require('lazy').setup({
   'tpope/vim-fugitive',
   'tpope/vim-rhubarb',
   'tpope/vim-sleuth',
+  'pearofducks/ansible-vim',
 
   {
     'neovim/nvim-lspconfig',
@@ -51,10 +52,30 @@ require('lazy').setup({
       require('coverage').setup()
     end
   },
-
+  {
+    'folke/trouble.nvim',
+    dependencies = { 'nvim-tree/nvim-web-devicons' },
+    config = function()
+      require('trouble').setup()
+    end
+  },
+  {
+    'folke/tokyonight.nvim',
+    priority = 1000,
+    config = function()
+      vim.cmd.colorscheme 'tokyonight-night'
+    end,
+  },
+  {
+    'olimorris/onedarkpro.nvim',
+    -- priority = 1000,
+    -- config = function()
+    --   vim.cmd.colorscheme 'onedark'
+    -- end,
+  },
   {
     'Mofiqul/dracula.nvim',
-    priority = 1000,
+    -- priority = 1000,
     -- config = function()
     --   vim.cmd.colorscheme 'dracula'
     -- end,
@@ -63,10 +84,10 @@ require('lazy').setup({
   {
     'catppuccin/nvim',
     name = 'catppuccin',
-    priority = 1000,
-    config = function()
-      vim.cmd.colorscheme 'catppuccin-mocha'
-    end,
+    -- priority = 1000,
+    -- config = function()
+    --   vim.cmd.colorscheme 'catppuccin-mocha'
+    -- end,
   },
 
   {
@@ -92,29 +113,6 @@ require('lazy').setup({
     dependencies = {
       'nvim-lua/plenary.nvim',
     },
-  },
-  {
-    'epwalsh/obsidian.nvim',
-    lazy = true,
-    event = { "BufReadPre /home/jhjaggars/Documents/ObsidianVault/**.md" },
-    dependencies = {
-      "nvim-lua/plenary.nvim",
-      "hrsh7th/nvim-cmp",
-      "nvim-telescope/telescope.nvim",
-    },
-    opts = {
-      dir = "~/Documents/ObsidianVault/",
-    },
-    config = function(_, opts)
-      require("obsidian").setup(opts)
-      vim.keymap.set("n", "gf", function()
-        if require("obsidian").util.cursor_on_markdown_link() then
-          return "<cmd>ObsidianFollowLink<CR>"
-        else
-          return "gf"
-        end
-      end, { noremap = false, expr = true })
-    end,
   },
   {
     'kylechui/nvim-surround',
@@ -220,6 +218,7 @@ end, { desc = '[C]ode [C]overage' })
 
 -- [[ Configure Treesitter ]]
 -- See `:help nvim-treesitter`
+---@diagnostic disable-next-line: missing-fields
 require('nvim-treesitter.configs').setup {
   -- Add languages to be installed here that you want installed for treesitter
   ensure_installed = { 'bash', 'c', 'cpp', 'go', 'lua', 'python', 'rust', 'tsx', 'typescript', 'help', 'vim', 'markdown',
@@ -293,7 +292,7 @@ vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = "Open diagn
 
 -- LSP settings.
 --  This function gets run when an LSP connects to a particular buffer.
-local on_attach = function(_, bufnr)
+local on_attach = function(client, bufnr)
   -- NOTE: Remember that lua is a real programming language, and as such it is possible
   -- to define small helper and utility functions so you don't have to repeat yourself
   -- many times.
@@ -351,7 +350,20 @@ local servers = {
   gopls = {},
   -- pyright = {},
   rust_analyzer = {},
-  tsserver = {},
+  tsserver = {
+    settings = {
+      format = {
+        enable = false,
+      },
+    },
+  },
+  eslint = {
+    settings = {
+      format = {
+        enable = true,
+      },
+    },
+  },
   lua_ls = {
     Lua = {
       workspace = { checkThirdParty = false },
@@ -394,6 +406,7 @@ local luasnip = require 'luasnip'
 
 luasnip.config.setup {}
 
+---@diagnostic disable-next-line: missing-fields
 cmp.setup {
   snippet = {
     expand = function(args)
@@ -430,8 +443,21 @@ cmp.setup {
   sources = {
     { name = 'nvim_lsp' },
     { name = 'luasnip' },
+    { name = 'codeium' },
   },
 }
+
+vim.api.nvim_create_autocmd("BufWritePre", {
+  pattern = "*.ts",
+  callback = function()
+    local params = {
+      command = "_typescript.organizeImports",
+      arguments = { vim.api.nvim_buf_get_name(0) },
+      title = ""
+    }
+    vim.lsp.buf.execute_command(params)
+  end,
+})
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
