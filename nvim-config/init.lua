@@ -61,10 +61,10 @@ require('lazy').setup({
   },
   {
     'folke/tokyonight.nvim',
-    priority = 1000,
-    config = function()
-      vim.cmd.colorscheme 'tokyonight-night'
-    end,
+    -- priority = 1000,
+    -- config = function()
+    --   vim.cmd.colorscheme 'tokyonight-night'
+    -- end,
   },
   {
     'olimorris/onedarkpro.nvim',
@@ -75,10 +75,10 @@ require('lazy').setup({
   },
   {
     'Mofiqul/dracula.nvim',
-    -- priority = 1000,
-    -- config = function()
-    --   vim.cmd.colorscheme 'dracula'
-    -- end,
+    priority = 1000,
+    config = function()
+      vim.cmd.colorscheme 'dracula'
+    end,
   },
 
   {
@@ -89,7 +89,13 @@ require('lazy').setup({
     --   vim.cmd.colorscheme 'catppuccin-mocha'
     -- end,
   },
-
+  {
+    'stevearc/oil.nvim',
+    config = function()
+      require('oil').setup()
+    end,
+    dependencies = { 'nvim-tree/nvim-web-devicons' },
+  },
   {
     'nvim-telescope/telescope-fzf-native.nvim',
     build = 'make',
@@ -156,8 +162,11 @@ require('lazy').setup({
     end
   },
   {
-    'Exafunction/codeium.vim',
-    event = 'BufEnter'
+    'Exafunction/codeium.nvim',
+    event = 'BufEnter',
+    config = function()
+      require('codeium').setup()
+    end
   },
 }, {})
 
@@ -442,8 +451,8 @@ cmp.setup {
   },
   sources = {
     { name = 'nvim_lsp' },
-    { name = 'luasnip' },
     { name = 'codeium' },
+    { name = 'luasnip' },
   },
 }
 
